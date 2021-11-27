@@ -10,8 +10,7 @@ entity Risks : managed {
         descr       : String;
         miti        : Association to Mitigations;
         impact      : Integer;
-        //bp : Association to BusinessPartners;
-        // Vai ser necessario em outro passo adiante
+        bp          : Association to BusinessPartners;
         criticality : Integer
 }
 
@@ -22,4 +21,12 @@ entity Mitigations : managed {
         timeline : String;
         risks    : Association to many Risks
                        on risks.miti = $self;
+}
+
+
+//Servico externo S4Hana
+using {API_BUSINESS_PARTNER as external} from '../srv/external/API_BUSINESS_PARTNER.csn';
+
+entity BusinessPartners as projection on external.A_BusinessPartner {
+    key BusinessPartner, LastName, FirstName
 }
